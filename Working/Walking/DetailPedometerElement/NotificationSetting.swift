@@ -10,7 +10,39 @@ import Foundation
 import UIKit
 import FontAwesome_swift
 
-extension PedometerElementViewController:UIPopoverPresentationControllerDelegate{
+extension PedometerElementViewController:UIPopoverPresentationControllerDelegate,NotificationSettingViewControllerDelegate{
+    func changeStepsSettingValue(_ steps: Int) {
+        //この項目が歩数であることを確認する
+        guard let pedoElement = pedoElement else{return}
+        guard pedoElement == .steps else{return}
+        checkPerStepsCount += (steps-perStepsCount)
+        perStepsCount = steps
+    }
+    
+    func changeDistanceSettingValue(_ distance: Double) {
+        //この項目が距離であることを確認する
+        guard let pedoElement = pedoElement else{return}
+        guard pedoElement == .distance else{return}
+        checkPerDistance += (Float(distance)-checkPerDistance)
+        perDistance = Float(distance)
+    }
+    
+    func changeTimeSettingValue(_ time: Double) {
+        //この項目が時間であることを確認する
+        guard let pedoElement = pedoElement else{return}
+        guard pedoElement == .time else{return}
+        checkPerTime += (Int(time)-checkPerTime)
+        perTime = Int(perTime)
+    }
+    
+    func changeCalorieSettingValue(_ calorie: Double) {
+        //この項目が消費カロリーであることを確認する
+        guard let pedoElement = pedoElement else{return}
+        guard pedoElement == .calorie else{return}
+        checkPerCalorie += (calorie-checkPerCalorie)
+        perCalorie = calorie
+    }
+    
     ///通知機能に関するセッティング
     public func notificationSetting(){
         notificationSwitch = UISwitch()
@@ -42,10 +74,29 @@ extension PedometerElementViewController:UIPopoverPresentationControllerDelegate
     @objc func changeSwitch(_ sender:UISwitch){
         print("スイッチが\(sender.isOn)に切り替わりました")
         notificationBool = sender.isOn
+        guard pedoElement == .time || pedoElement == .calorie else{return}
+        print("通知の設定を変更します")
+        ///スイッチがオフになったときの処理(送信ずみの通知を全て削除する)
+        if sender.isOn == false{
+            if pedoElement == .time{
+                removeTimerNotification()
+            }else if pedoElement == .calorie{
+                removeCalorieNotification()
+            }
+            ///スイッチがオンになったときの処理(次の時間:checkPerTime)からperTime感覚で通知を送信する
+        }else{
+            //ただしスタートボタンがオンになっていない場合は無視する
+            if pedoElement == .time{
+                restartTimerNotification()
+            }else if pedoElement == .calorie{
+                restartCalorieNotification()
+            }
+        }
     }
     @objc func notificationInfoClick(_ sender:UIButton){
         print("情報ボタンがクリックされました")
         notificationViewController = NotificationSettingViewController()
+        notificationViewController.delegate = self
         notificationViewController.modalPresentationStyle = .popover
         notificationViewController.preferredContentSize = CGSize(width: 200, height: 300)
         notificationViewController.popoverPresentationController?.sourceView = sender.superview
@@ -63,6 +114,7 @@ extension PedometerElementViewController:UIPopoverPresentationControllerDelegate
             notificationViewController.timeSetting()
         case .calorie:
             notificationViewController.popoverPresentationController?.permittedArrowDirections = .down
+            notificationViewController.weight = weight
             notificationViewController.calorieSetting()
         default:break
         }

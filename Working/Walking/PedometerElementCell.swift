@@ -10,6 +10,14 @@ import UIKit
 
 protocol PedometerElementCellDelegate : AnyObject {
     func updateTimer(_ time:Int)
+    ///基準の歩数を超えたときに呼び出されるデリゲートメソッド
+    func archievePerSteps(_ perStepCount:Int,_ stepCount:Int)
+    ///基準の距離を超えたときに呼び出されるデリゲートメソッド
+    func archievePerDistance(_ perDistance:Float,_ totalDistance:Float)
+    ///基準の時間を超えたときに呼び出されるデリゲートメソッド
+    func archievePerTime(_ perTime:Int,totalTime:Int)
+    ///基準の消費カロリーを超えたときに呼び出されるデリゲートメソッド
+    func archievePerCalorie(_ perCalorie:Double,totalCalorie:Double)
 }
 public enum PedometerElementNumber : Int{
     case steps = 0
@@ -18,6 +26,26 @@ public enum PedometerElementNumber : Int{
     case calorie = 3
 }
 class PedometerElementCell: UICollectionViewCell,PedometerElementViewControllerDelegate {
+    func archievePerSteps(_ perStepCount: Int, _ stepCount: Int) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerSteps(perStepCount, stepCount)
+    }
+    
+    func archievePerDistance(_ perDistance: Float, _ totalDistance: Float) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerDistance(perDistance, totalDistance)
+    }
+    
+    func archievePerTime(_ perTime: Int, totalTime: Int) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerTime(perTime, totalTime: totalTime)
+    }
+    
+    func archievePerCalorie(_ perCalorie: Double, totalCalorie: Double) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerCalorie(perCalorie, totalCalorie: totalCalorie)
+    }
+    
     weak var delegate : PedometerElementCellDelegate!
     var pedometerElementViewController : PedometerElementViewController!
     override init(frame: CGRect) {
@@ -33,6 +61,7 @@ class PedometerElementCell: UICollectionViewCell,PedometerElementViewControllerD
         self.contentView.clipsToBounds = true
         pedometerElementViewController = PedometerElementViewController()
         pedometerElementViewController.view.frame = self.contentView.bounds
+        pedometerElementViewController.delegate = self
         self.contentView.addSubview(pedometerElementViewController.view)
         switch indexPath.item {
             //歩数に関するセッティングを行うメソッド
@@ -43,7 +72,6 @@ class PedometerElementCell: UICollectionViewCell,PedometerElementViewControllerD
             pedometerElementViewController.distanceCountSetting("距離")
             //歩いた時間に関するセッティングを行うメソッド
         case PedometerElementNumber.time.rawValue:
-            pedometerElementViewController.delegate = self
             pedometerElementViewController.timeCountSetting("時間")
             //歩いて消費したカロリーに関するセッティングを行うメソッド
         case PedometerElementNumber.calorie.rawValue:
@@ -55,6 +83,21 @@ class PedometerElementCell: UICollectionViewCell,PedometerElementViewControllerD
     public func startTimer(){
         guard let pedometerelementViewController = pedometerElementViewController else{return}
         pedometerelementViewController.startTimer()
+    }
+    ///タイマーがスタートしたと同時にカロリーで呼び出される
+    public func startCalorie(){
+        guard let pedometerelementViewController = pedometerElementViewController else{return}
+        pedometerelementViewController.startCalorie()
+    }
+    ///タイマーがスタートしたと同時に歩数で呼び出される
+    public func startSteps(){
+        guard let pedometerelementViewController = pedometerElementViewController else{return}
+        pedometerelementViewController.startSteps()
+    }
+    ///タイマーがスタートしたと同時に距離で呼び出される
+    public func startDistance(){
+        guard let pedometerelementViewController = pedometerElementViewController else{return}
+        pedometerelementViewController.startDistance()
     }
     ///万歩計を更新するときに使用するための関数
     public func updataSteps(_ steps:NSNumber){
@@ -91,5 +134,23 @@ class PedometerElementCell: UICollectionViewCell,PedometerElementViewControllerD
             pedometerElementViewController.resetCalorie()
         default:break
         }
+    }
+    public func checkCellUpdateValue(_ indexPath:IndexPath) -> (per:Any?,total:Any?){
+        switch indexPath.item {
+            //歩数に関するセッティングを行うメソッド
+        case PedometerElementNumber.steps.rawValue:
+            return pedometerElementViewController.checkStepsLocationUpdate()
+            //歩いた距離に関するセッティングを行うメソッド
+        case PedometerElementNumber.distance.rawValue:
+            return pedometerElementViewController.checkDistanceLocationUpdate()
+            //歩いた時間に関するセッティングを行うメソッド
+        case PedometerElementNumber.time.rawValue:
+            return pedometerElementViewController.checkTimeLocationUpdate()
+            //歩いて消費したカロリーに関するセッティングを行うメソッド
+        case PedometerElementNumber.calorie.rawValue:
+            return pedometerElementViewController.checkCalorieLocationUpdate()
+        default:break
+        }
+        return (nil,nil)
     }
 }

@@ -10,6 +10,16 @@ import Foundation
 import UIKit
 import FontAwesome_swift
 
+public enum PedoSaveElement : String{
+    case perSteps = "perSteps"
+    case stepsCount = "stepsCount"
+    case perDistance = "perDistance"
+    case distance = "distance"
+    case perTime = "perTime"
+    case startTime = "startTime"
+    case perCalorie = "perCalorie"
+}
+
 extension ViewController{
     ///読み込んだときにUIパーツをセットするための関数
     public func uiSetting(){
@@ -47,13 +57,27 @@ extension ViewController{
             if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.time.rawValue, section: 0)) as? PedometerElementCell{
                 cell.startTimer()
             }
+            if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.calorie.rawValue, section: 0)) as? PedometerElementCell{
+                cell.startCalorie()
+            }
+            if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.steps.rawValue, section: 0)) as? PedometerElementCell{
+                cell.startSteps()
+            }
+            if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.distance.rawValue, section: 0)) as? PedometerElementCell{
+                cell.startDistance()
+            }
             setButton()
             pedometerSetting()
+            guard let delegate = delegate else{return}
+            delegate.startPedometer()
+            saveTimerStartButton()
         case true:
             startButton.setTitle(String.fontAwesomeIcon(name: .play), for: .normal)
             startButton.isSelected = false
             setButton()
             resetPedometer()
+            guard let delegate = delegate else {return}
+            delegate.resetPedometer()
         default:break
         }
     }
@@ -66,5 +90,11 @@ extension ViewController{
         startButton.layer.cornerRadius = startButton.frame.size.height/2
         startButton.backgroundColor = .white
         startButton.center = CGPoint(x: self.view.frame.size.width/2, y: settingView.frame.maxY + (tabHeight - settingView.frame.maxY)/2)
+    }
+    private func saveTimerStartButton(){
+        UserDefaults.standard.setValue(Date(), forKey: PedoSaveElement.startTime.rawValue)
+    }
+    private func removeTimerStartButton(){
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.startTime.rawValue)
     }
 }

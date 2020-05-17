@@ -35,21 +35,29 @@ extension NotificationSettingViewController:UIPickerViewDelegate,UIPickerViewDat
             if let steps = Int(pickerElementString[row]){
                 stepValue = steps
                 updateExplainLabel("\(stepValue!)歩経過するたびに1度通知します")
+                guard let delegate = delegate else {return}
+                delegate.changeStepsSettingValue(steps)
             }
         case .distance:
             if let distance = Int(pickerElementString[row]){
                 distanceValue = distance
                 updateExplainLabel("\(distanceValue!)m経過するたびに1度通知します")
+                guard let delegate = delegate else {return}
+                delegate.changeDistanceSettingValue(Double(distance))
             }
         case .time:
             if let time = Int(pickerElementString[row]){
                 timeValue = time
                 updateExplainLabel("\(timeValue!)分経過するたびに1度通知します")
+                guard let delegate = delegate else {return}
+                delegate.changeTimeSettingValue(Double(time)*60)
             }
         case .calorie:
             if let calorie = Int(pickerElementString[row]){
                 calorieValue = calorie
                 updateExplainLabel("消費カロリーが\(calorieValue!)kcal経過するたびに1度通知します")
+                guard let delegate = delegate else {return}
+                delegate.changeCalorieSettingValue(Double(calorie))
             }
         default:
             break

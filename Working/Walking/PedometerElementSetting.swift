@@ -10,6 +10,26 @@ import Foundation
 import UIKit
 
 extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource,PedometerElementCellDelegate{
+    func archievePerSteps(_ perStepCount: Int, _ stepCount: Int) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerSteps(perStepCount, stepCount)
+    }
+    
+    func archievePerDistance(_ perDistance: Float, _ totalDistance: Float) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerDistance(perDistance, totalDistance)
+    }
+    
+    func archievePerTime(_ perTime: Int, totalTime: Int) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerTime(perTime, totalTime: totalTime)
+    }
+    
+    func archievePerCalorie(_ perCalorie: Double, totalCalorie: Double) {
+        guard let delegate = delegate else{return}
+        delegate.archievePerCalorie(perCalorie, totalCalorie: totalCalorie)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
@@ -20,9 +40,7 @@ extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource,Ped
             i.removeFromSuperview()
         }
         cell.setUpCell(indexPath)
-        if indexPath.item == PedometerElementNumber.time.rawValue{
-            cell.delegate = self
-        }
+        cell.delegate = self
         return cell
     }
     
@@ -46,8 +64,11 @@ extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource,Ped
     
     ///タイマーが更新されたことを知らせるデリゲートメソッド(1秒に1度だけ更新)
     func updateTimer(_ time:Int){
-        if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.calorie.rawValue, section: 0)) as? PedometerElementCell{
-            cell.updateCalorie(time)
+        DispatchQueue.main.async {[weak self] in
+            guard let _ = self else{return}
+            if let cell = self!.pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.calorie.rawValue, section: 0)) as? PedometerElementCell{
+                cell.updateCalorie(time)
+            }
         }
     }
 }

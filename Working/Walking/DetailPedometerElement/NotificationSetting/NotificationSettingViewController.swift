@@ -8,9 +8,20 @@
 
 import UIKit
 
+protocol NotificationSettingViewControllerDelegate:AnyObject {
+    ///歩数の基準値が変更されたときに呼び出されるメソッド
+    func changeStepsSettingValue(_ steps:Int)
+    ///距離の基準値が変更されたときに呼び出されるメソッド
+    func changeDistanceSettingValue(_ distance:Double)
+    ///時間の基準値が変更されたときに呼び出されるメソッド
+    func changeTimeSettingValue(_ time:Double)
+    ///消費カロリーの基準値が変更されたときに呼び出されるメソッド
+    func changeCalorieSettingValue(_ calorie:Double)
+}
+
 ///ポップアップで表示して通知のタイミングを設定するためのビューコントローラー
 class NotificationSettingViewController: UIViewController {
-
+    weak var delegate : NotificationSettingViewControllerDelegate!
     var settingLabel : UILabel!
     var explainLabel : UILabel!
     var pedometerElement : PedometerElement!
@@ -21,6 +32,11 @@ class NotificationSettingViewController: UIViewController {
     var distanceValue : Int!
     var timeValue : Int!
     var calorieValue : Int!
+    var weight : Double!
+    var calorieWeightLabel : UILabel!
+    var calorieWeightUnitLabel : UILabel!
+    var calorieWeightTextField : UITextField!
+    var calorieWeightExplain : UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -91,7 +107,7 @@ class NotificationSettingViewController: UIViewController {
             "165",
             "180"
         ]
-        timeValue = 60
+        timeValue = 60*60
         pickerSetting()
         picker.selectRow(3, inComponent: 0, animated: false)
         unitLabelSetting("分")
@@ -121,6 +137,8 @@ class NotificationSettingViewController: UIViewController {
         unitLabelSetting("kcal")
         settingLabelSetting("通知消費カロリー設定")
         explainLabel("消費カロリーが\(calorieValue!)kcal経過するたびに1度通知します")
+        settingCalorieWeight()
+        
     }
 
     /*
