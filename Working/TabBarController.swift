@@ -21,14 +21,14 @@ class TabBarController: UITabBarController,ViewControllerDelegate {
         locationViewController.archievePerDistance(perDistance, totalDistance)
     }
     
-    func archievePerTime(_ perTime: Int, totalTime: Int) {
+    func archievePerTime(_ perTime: Int, totalTime: Int,locationManagerDic:Dictionary<Double,CLLocationCoordinate2D>?) {
         guard let locationViewController = locationViewController else{return}
-        locationViewController.archievePerTime(perTime, totalTime: totalTime)
+        locationViewController.archievePerTime(perTime, totalTime: totalTime,locationManagerDic:locationManagerDic)
     }
     
-    func archievePerCalorie(_ perCalorie: Double, totalCalorie: Double) {
+    func archievePerCalorie(_ perCalorie: Double, totalCalorie: Double,locationManagerDic:Dictionary<Double,CLLocationCoordinate2D>?) {
         guard let locationViewController = locationViewController else{return}
-        locationViewController.archievePerCalorie(perCalorie, totalCalorie: totalCalorie)
+        locationViewController.archievePerCalorie(perCalorie, totalCalorie: totalCalorie,locationManagerDic:locationManagerDic)
     }
     
     ///万歩計がスタートしたときに呼び出されるデリゲートメソッド

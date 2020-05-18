@@ -23,9 +23,9 @@ protocol ViewControllerDelegate : AnyObject {
     ///基準の距離を超えたときに呼び出されるデリゲートメソッド
     func archievePerDistance(_ perDistance:Float,_ totalDistance:Float)
     ///基準の時間を超えたときに呼び出されるデリゲートメソッド
-    func archievePerTime(_ perTime:Int,totalTime:Int)
+    func archievePerTime(_ perTime:Int,totalTime:Int,locationManagerDic:Dictionary<Double,CLLocationCoordinate2D>?)
     ///基準の消費カロリーを超えたときに呼び出されるデリゲートメソッド
-    func archievePerCalorie(_ perCalorie:Double,totalCalorie:Double)
+    func archievePerCalorie(_ perCalorie:Double,totalCalorie:Double,locationManagerDic:Dictionary<Double,CLLocationCoordinate2D>?)
 }
 extension ViewController{
     ///万歩計のセッティング
@@ -69,6 +69,16 @@ extension ViewController{
         }
         if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.calorie.rawValue, section: 0)) as? PedometerElementCell{
             cell.resetValue(IndexPath(item: PedometerElementNumber.calorie.rawValue, section: 0))
+        }
+    }
+    ///万歩計をストップさせるための関数
+    public func stopPedometer(){
+        if pedometer != nil{
+            pedometer.stopUpdates()
+            pedometer = nil
+        }
+        if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.time.rawValue, section: 0)) as? PedometerElementCell{
+            cell.stopTimer()
         }
     }
 }

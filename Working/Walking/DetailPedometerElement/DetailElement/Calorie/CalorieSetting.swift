@@ -56,6 +56,7 @@ extension PedometerElementViewController{
         updateCalorieLabel()
         calorieSizeUpdate()
         removeCalorieNotification()
+        //removeCalorieUserDefalts()
     }
     ///ヘルスキットから体重を取得するための関数
     private func getWeight(){
@@ -133,14 +134,15 @@ extension PedometerElementViewController{
     ///スタートボタンがクリックされたらすぐに消費カロリーの通知の準備をする
     public func startCalorie(){
         print("消費カロリーがスタートしました")
+        print(perCalorie)
         startButtonOn = true
         //通知のスイッチがオンになっているときだけ
         guard let notificationSwitch = notificationSwitch else{return}
         DispatchQueue.main.async {[weak self] in
             guard let _ = self else{return}
             if notificationSwitch.isOn{
-                self!.sendNotificationCalorie(nil, "\(self!.perCalorie != nil ? Int(self!.perCalorie) : 0)kcalを超えました。")
-                self!.reading = Reading("消費カロリーが基準の\(self!.perCalorie != nil ? Int(self!.perCalorie!) : 0)キロカロリーを超えました。", .calorie)
+                self!.sendNotificationCalorie(nil, "\(self!.perCalorie != nil ? Int(self!.perCalorie) : 150)kcalを超えました。")
+                self!.reading = Reading("消費カロリーが基準の\(self!.perCalorie != nil ? Int(self!.perCalorie!) : 150)キロカロリーを超えました。", .calorie)
                 self!.reading.readingToAudioFile()
                 //if let delegate = self!.delegate{
                     //delegate.archievePerTime(self!.perTime, totalTime: self!.time)
@@ -153,6 +155,18 @@ extension PedometerElementViewController{
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [pedoElementNotification.calorie.rawValue])
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [pedoElementNotification.calorie.rawValue])
         print("消費カロリー通知の削除に成功しました")
+    }
+    ///保存してある消費カロリーに関するUserDefaltsのデータを削除する
+    private func removeCalorieUserDefalts(){
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perCalorie.rawValue)
+    }
+    ///もしも保存してあるデータがあるのなら、そっちを使ってなかったらデフォルトの値をぶち込む
+    public func settingCalorieUserDefaults(){
+        if let perCalorie = UserDefaults.standard.object(forKey: PedoSaveElement.perCalorie.rawValue) as? Double{
+            self.perCalorie = perCalorie
+        }else{
+            perCalorie = DEFAULT_PERCALORIE
+        }
     }
     ///消費カロリーの通知をあらためて作成するための関数
     public func restartCalorieNotification(){

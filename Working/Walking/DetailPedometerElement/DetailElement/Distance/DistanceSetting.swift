@@ -41,6 +41,7 @@ extension PedometerElementViewController{
     public func resetDistance(){
         distance = nil
         updateDistanceLabel()
+        //removeDistanceUserDedaults()
     }
     private func updateDistanceLabel(){
         distanceLabel.text = "\(distance != nil ? distance! : 0)"
@@ -121,6 +122,25 @@ extension PedometerElementViewController{
             return (perDistance,distance)
         }else{
             return (nil,nil)
+        }
+    }
+    ///距離に関するUserDefaultsに保存してある値を削除する
+    private func removeDistanceUserDedaults(){
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perDistance.rawValue)
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.distance.rawValue)
+    }
+    ///もしも保存してあるデータがあるのなら、そっちを使ってなかったらデフォルトの値をぶち込む
+    public func settingDistanceUserDefaults(){
+        if let distance = UserDefaults.standard.object(forKey: PedoSaveElement.distance.rawValue) as? Float{
+            self.distance = distance
+        }else{
+            distance = 0
+        }
+        
+        if let perDistance = UserDefaults.standard.object(forKey: PedoSaveElement.perDistance.rawValue) as? Float{
+            self.perDistance = perDistance
+        }else{
+            perDistance = DEFAULT_PERDISTANCE
         }
     }
 }

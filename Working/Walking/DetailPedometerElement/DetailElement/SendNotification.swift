@@ -83,8 +83,9 @@ extension PedometerElementViewController{
         DispatchQueue.main.asyncAfter(deadline: .now() + delay,execute: workItem)
     }
     public func sendNotificationCalorie(_ title:String?,_ body:String){
-        let timer = (perCalorie != nil ? perCalorie! : 150.0) / (3*(weight != nil ? weight! : 60))
+        let timer = (perCalorie != nil ? perCalorie! : DEFAULT_PERCALORIE) / (3*(weight != nil ? weight! : DEFAULT_WEIGHT))
         let perSec = 60*60*timer
+        
         let content = UNMutableNotificationContent()
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(exactly: Double(perSec))!, repeats: true)
         // 通知のメッセージセット
@@ -98,7 +99,7 @@ extension PedometerElementViewController{
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     public func sendNotificationCalorie(_ title:String?,_ body:String,_ delay:Double){
-        let timer = (self.perCalorie != nil ? self.perCalorie! : 150.0) / (3*(self.weight != nil ? self.weight! : 60))
+        let timer = (self.perCalorie != nil ? self.perCalorie! : DEFAULT_PERCALORIE) / (3*(self.weight != nil ? self.weight! : DEFAULT_WEIGHT))
         let perSec = 60*60*timer
         print(perSec)
         if workItem != nil{
@@ -109,7 +110,7 @@ extension PedometerElementViewController{
         print("\(delay/60)分後に1度通知し、その後\(perSec/60)分ごとに1度通知する設定が完了しました")
         workItem = DispatchWorkItem() {[weak self] in
             guard let _ = self else{return}
-            let timer = (self!.perCalorie != nil ? self!.perCalorie! : 150.0) / (3*(self!.weight != nil ? self!.weight! : 60))
+            let timer = (self!.perCalorie != nil ? self!.perCalorie! : DEFAULT_PERCALORIE) / (3*(self!.weight != nil ? self!.weight! : DEFAULT_WEIGHT))
             let perSec = 60*60*timer
             let content = UNMutableNotificationContent()
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(exactly: Double(perSec))!, repeats: true)

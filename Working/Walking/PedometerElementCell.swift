@@ -84,6 +84,10 @@ class PedometerElementCell: UICollectionViewCell,PedometerElementViewControllerD
         guard let pedometerelementViewController = pedometerElementViewController else{return}
         pedometerelementViewController.startTimer()
     }
+    public func stopTimer(){
+        guard let pedometerelementViewController = pedometerElementViewController else{return}
+        pedometerelementViewController.resetTimer()
+    }
     ///タイマーがスタートしたと同時にカロリーで呼び出される
     public func startCalorie(){
         guard let pedometerelementViewController = pedometerElementViewController else{return}

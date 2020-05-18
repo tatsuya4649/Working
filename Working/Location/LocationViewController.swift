@@ -21,6 +21,7 @@ class LocationViewController: UIViewController {
     var customAnnotationView : MapAnnotationView!
     var stopBool : Bool!
     var imageFromView : ImageFromView!
+    var locationManagerDic : Dictionary<Double,CLLocationCoordinate2D>!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "記録マップ"

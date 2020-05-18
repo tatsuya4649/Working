@@ -72,7 +72,6 @@ extension PedometerElementViewController{
     public func resetTimer(){
         if timer != nil{
             timer.invalidate()
-            timer = nil
         }
     }
     public func startTimerOnly(){
@@ -102,6 +101,7 @@ extension PedometerElementViewController{
         if startButtonOn != nil{
             startButtonOn = nil
         }
+        guard let _ = timer else{return}
         timer.invalidate()
         //timer.cancel()
         timer = nil
@@ -109,6 +109,7 @@ extension PedometerElementViewController{
         updateTimeLabel()
         checkPerTime = perTime
         removeTimerNotification()
+        //removeTimerUserDefaults()
     }
     private func updateTimeLabel(){
         if time >= 60*60*24{
@@ -371,6 +372,18 @@ extension PedometerElementViewController{
         UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { request in
             print(request)
         })
+    }
+    ///時間に関するUserDefaultsを削除する
+    private func removeTimerUserDefaults(){
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perTime.rawValue)
+    }
+    ///もしも保存してあるデータがあるのなら、そっちを使ってなかったらデフォルトの値をぶち込む
+    public func settingTimeUserDefaults(){
+        if let perTime = UserDefaults.standard.object(forKey: PedoSaveElement.perTime.rawValue) as? Int{
+            self.perTime = perTime
+        }else{
+            perTime = DEFAULT_PERTIME
+        }
     }
     ///時間の通知を改めて作成するための関数
     public func restartTimerNotification(){

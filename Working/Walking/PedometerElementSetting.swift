@@ -22,12 +22,12 @@ extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource,Ped
     
     func archievePerTime(_ perTime: Int, totalTime: Int) {
         guard let delegate = delegate else{return}
-        delegate.archievePerTime(perTime, totalTime: totalTime)
+        delegate.archievePerTime(perTime, totalTime: totalTime, locationManagerDic: locationManagerDic)
     }
     
     func archievePerCalorie(_ perCalorie: Double, totalCalorie: Double) {
         guard let delegate = delegate else{return}
-        delegate.archievePerCalorie(perCalorie, totalCalorie: totalCalorie)
+        delegate.archievePerCalorie(perCalorie, totalCalorie: totalCalorie, locationManagerDic: locationManagerDic)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

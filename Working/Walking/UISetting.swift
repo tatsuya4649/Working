@@ -16,7 +16,10 @@ public enum PedoSaveElement : String{
     case perDistance = "perDistance"
     case distance = "distance"
     case perTime = "perTime"
+    //スタートした時間
     case startTime = "startTime"
+    //アプリを閉じた・フォアグランドに移動した時間
+    case closeTime = "closeTime"
     case perCalorie = "perCalorie"
     case weight = "weight"
 }
@@ -57,6 +60,7 @@ extension ViewController{
         case false:
             startButton.setTitle(String.fontAwesomeIcon(name: .stop), for: .normal)
             startButton.isSelected = true
+            resetPedometer()
             if let cell = pedometerCollection.cellForItem(at: IndexPath(item: PedometerElementNumber.time.rawValue, section: 0)) as? PedometerElementCell{
                 cell.startTimer()
             }
@@ -78,7 +82,7 @@ extension ViewController{
             startButton.setTitle(String.fontAwesomeIcon(name: .play), for: .normal)
             startButton.isSelected = false
             setButton()
-            resetPedometer()
+            stopPedometer()
             guard let delegate = delegate else {return}
             delegate.resetPedometer()
         default:break

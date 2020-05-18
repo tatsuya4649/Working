@@ -40,6 +40,7 @@ extension PedometerElementViewController{
     public func resetStep(){
         stepsCount = nil
         updateStepsLabel()
+        //removeStepsUserDefaults()
     }
     private func updateStepsLabel(){
         stepsLabel.text = "\(stepsCount != nil ? stepsCount! : 0)"
@@ -121,6 +122,18 @@ extension PedometerElementViewController{
             return (perStepsCount,stepsCount)
         }else{
             return (nil,nil)
+        }
+    }
+    ///歩数に関するUserDefaultsに保存してある値を全て削除する
+    private func removeStepsUserDefaults(){
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perSteps.rawValue)
+    }
+    ///もしも保存してあるデータがあるのなら、そっちを使ってなかったらデフォルトの値をぶち込む
+    public func settingStepsUserDefaults(){
+        if let perSteps = UserDefaults.standard.object(forKey: PedoSaveElement.perSteps.rawValue) as? Int{
+            self.perStepsCount = perSteps
+        }else{
+            perStepsCount = DEFAULT_PERSTEPS
         }
     }
 }

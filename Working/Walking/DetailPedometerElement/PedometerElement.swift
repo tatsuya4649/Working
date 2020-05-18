@@ -26,6 +26,7 @@ class PedometerElementViewController: UIViewController {
         self.view.backgroundColor = .black
         NotificationCenter.default.addObserver(self, selector: #selector(activeApp(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(notActiveApp(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notActiveApp(_:)), name: UIApplication.willTerminateNotification, object: nil)
         // Do any additional setup after loading the view.
     }
     //以下は全てトップページのコレクションビュー内のセルから呼び出される
@@ -42,7 +43,7 @@ class PedometerElementViewController: UIViewController {
         pedometerElementTitleLabel(title)
         stepsSetting()
         notificationSetting()
-        perStepsCount = 1000
+        perStepsCount = DEFAULT_PERSTEPS
         checkPerStepsCount = perStepsCount
         locationUpdatePerStepsCount = checkPerStepsCount
     }
@@ -59,7 +60,7 @@ class PedometerElementViewController: UIViewController {
         pedometerElementTitleLabel(title)
         distanceSetting()
         notificationSetting()
-        perDistance = 1000.0
+        settingDistanceUserDefaults()
         checkPerDistance = perDistance
         locationUpdatePerDistance = checkPerDistance
     }
@@ -85,7 +86,7 @@ class PedometerElementViewController: UIViewController {
         pedometerElementTitleLabel(title)
         timeSetting()
         notificationSetting()
-        perTime = 60*60
+        settingTimeUserDefaults()
         checkPerTime = perTime
         locationUpdatePerTime = checkPerTime
     }
@@ -104,7 +105,7 @@ class PedometerElementViewController: UIViewController {
         pedometerElementTitleLabel(title)
         calorieSetting()
         notificationSetting()
-        perCalorie = 150.0
+        settingCalorieUserDefaults()
         checkPerCalorie = perCalorie
         locationUpdatePerCalorie = checkPerCalorie
     }
@@ -129,9 +130,12 @@ class PedometerElementViewController: UIViewController {
             UserDefaults.standard.setValue(distance, forKey: PedoSaveElement.distance.rawValue)
         case .time:
             UserDefaults.standard.setValue(perTime, forKey: PedoSaveElement.perTime.rawValue)
+            ///閉じる瞬間の時間を保存しておく
+            UserDefaults.standard.setValue(Date(), forKey: PedoSaveElement.closeTime.rawValue)
             resetTimer()
         case .calorie:
             UserDefaults.standard.setValue(perCalorie, forKey: PedoSaveElement.perCalorie.rawValue)
+            UserDefaults.standard.setValue(weight, forKey: PedoSaveElement.weight.rawValue)
         default:break
         }
     }

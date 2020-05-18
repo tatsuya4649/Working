@@ -11,6 +11,11 @@ import CoreMotion
 import CoreLocation
 
 var defaultColor = UIColor(red: 255/255, green: 235/255, blue: 54/255, alpha: 1)
+var DEFAULT_PERCALORIE = 150.0
+var DEFAULT_PERTIME = 60*60
+var DEFAULT_PERDISTANCE : Float = 1000.0
+var DEFAULT_PERSTEPS = 1000
+var DEFAULT_WEIGHT : Double = 60
 var stepsAudioFile = "steps.caf"
 var distanceAudioFile = "distance.caf"
 var timeAudioFile = "time.caf"
@@ -29,6 +34,7 @@ class ViewController: UIViewController {
     var latitude : Double!
     var longitude : Double!
     var imageFromView : ImageFromView!
+    var locationManagerDic : Dictionary<Double,CLLocationCoordinate2D>!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "万歩計"
@@ -37,6 +43,7 @@ class ViewController: UIViewController {
         pedometerElementSetting()
         NotificationCenter.default.addObserver(self, selector: #selector(activeApp), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unActionApp), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unActionApp(_:)), name: UIApplication.willTerminateNotification, object: nil)
         // Do any additional setup after loading the view.
     }
     override func viewDidLayoutSubviews() {
@@ -53,6 +60,10 @@ class ViewController: UIViewController {
             pedometerSetting()
             //位置情報を作動させる
             settingLocationManager()
+            //閉じた時間と開いた時間,perTimeを使用して閉じている間に超えた基準時間について調べて地図上にピンをする
+            fromCloseTimeToOpenTimeTime()
+            //閉じた時間と開いた時間,perCalorieを使用して閉じている間に超えた消費カロリーについて調べて地図上にピンをする
+            fromCloseTimeToOpenTimeCalorie()
         }
     }
     
