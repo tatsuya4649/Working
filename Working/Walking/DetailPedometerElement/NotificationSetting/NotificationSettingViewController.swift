@@ -17,6 +17,8 @@ protocol NotificationSettingViewControllerDelegate:AnyObject {
     func changeTimeSettingValue(_ time:Double)
     ///消費カロリーの基準値が変更されたときに呼び出されるメソッド
     func changeCalorieSettingValue(_ calorie:Double)
+    ///消費カロリーに使用するための数値である体重が変更されたときに呼び出されるメソッド
+    func changeWeightSettingValue(_ weight:Double)
 }
 
 ///ポップアップで表示して通知のタイミングを設定するためのビューコントローラー
@@ -43,7 +45,7 @@ class NotificationSettingViewController: UIViewController {
     }
     
     ///歩数に関する設定を行うためのセッティング
-    public func stepsSetting(){
+    public func stepsSetting(_ perSteps:Int){
         pedometerElement = PedometerElement.steps
         pickerElementString = [
             "100",
@@ -61,13 +63,17 @@ class NotificationSettingViewController: UIViewController {
         ]
         stepValue = Int(1000)
         pickerSetting()
-        picker.selectRow(2, inComponent: 0, animated: false)
+        if let number = checkPickerSelectRow(pickerElementString,perSteps){
+            picker.selectRow(number, inComponent: 0, animated: false)
+        }else{
+            picker.selectRow(2, inComponent: 0, animated: false)
+        }
         unitLabelSetting("歩")
         settingLabelSetting("通知歩数設定")
         explainLabel("\(stepValue!)歩経過するたびに1度通知します")
     }
     ///距離に関する設定を行うためのセッティング
-    public func distanceSetting(){
+    public func distanceSetting(_ perDistance:Float){
         pedometerElement = PedometerElement.distance
         pickerElementString = [
             "500",
@@ -85,13 +91,17 @@ class NotificationSettingViewController: UIViewController {
         ]
         distanceValue = 1000
         pickerSetting()
-        picker.selectRow(1, inComponent: 0, animated: false)
+        if let number = checkPickerSelectRow(pickerElementString,Int(perDistance)){
+            picker.selectRow(number, inComponent: 0, animated: false)
+        }else{
+            picker.selectRow(1, inComponent: 0, animated: false)
+        }
         unitLabelSetting("m")
         settingLabelSetting("通知距離設定")
         explainLabel("\(distanceValue!)m経過するたびに1度通知します")
     }
     ///時間に関する設定を行うためのセッティング
-    public func timeSetting(){
+    public func timeSetting(_ perTime:Int){
         pedometerElement = PedometerElement.time
         pickerElementString = [
             "15",
@@ -109,13 +119,17 @@ class NotificationSettingViewController: UIViewController {
         ]
         timeValue = 60*60
         pickerSetting()
-        picker.selectRow(3, inComponent: 0, animated: false)
+        if let number = checkPickerSelectRow(pickerElementString, Int(perTime/60)){
+            picker.selectRow(number, inComponent: 0, animated: false)
+        }else{
+            picker.selectRow(3, inComponent: 0, animated: false)
+        }
         unitLabelSetting("分")
         settingLabelSetting("通知時間設定")
         explainLabel("\(timeValue!)分経過するたびに1度通知します")
     }
     ///消費カロリーに関する設定を行うためのセッティング
-    public func calorieSetting(){
+    public func calorieSetting(_ calorie:Double){
         pedometerElement = PedometerElement.calorie
         pickerElementString = [
             "50",
@@ -133,12 +147,29 @@ class NotificationSettingViewController: UIViewController {
         ]
         calorieValue = 150
         pickerSetting()
-        picker.selectRow(2, inComponent: 0, animated: false)
+        if let number = checkPickerSelectRow(pickerElementString, Int(calorie)){
+            picker.selectRow(number, inComponent: 0, animated: false)
+        }else{
+            picker.selectRow(2, inComponent: 0, animated: false)
+        }
+        
         unitLabelSetting("kcal")
         settingLabelSetting("通知消費カロリー設定")
         explainLabel("消費カロリーが\(calorieValue!)kcal経過するたびに1度通知します")
         settingCalorieWeight()
         
+    }
+    ///ピッカーと被っている番号を返す(ピッカーセッティング用関数)
+    private func checkPickerSelectRow(_ array:Array<String>,_ perValue:Int)->Int?{
+        guard array.count > 0 else{fatalError()}
+        for number in 0..<array.count{
+            if let stringInt = Int(array[number]){
+                if stringInt == perValue{
+                    return number
+                }
+            }
+        }
+        return nil
     }
 
     /*

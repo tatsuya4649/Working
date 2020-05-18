@@ -60,8 +60,8 @@ class TabBarController: UITabBarController,ViewControllerDelegate {
         settingViewController.delegate = self
         locationViewController = LocationViewController()
         locationViewController.tabBarItem = UITabBarItem(title: "Location", image: UIImage.fontAwesomeIcon(name: .mapMarkedAlt, style: .solid, textColor: .black, size: CGSize(width: 30, height: 30)), tag: 1)
-        self.setViewControllers([settingViewController,locationViewController], animated: false)
-        UITabBar.appearance().tintColor = .white
+        self.setViewControllers([UINavigationController(rootViewController: settingViewController),UINavigationController(rootViewController: locationViewController)], animated: false)
+        UITabBar.appearance().tintColor = defaultColor
         UITabBar.appearance().barTintColor = .clear
         
         settingNotification()

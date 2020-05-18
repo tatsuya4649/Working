@@ -99,6 +99,9 @@ extension PedometerElementViewController{
     }
     ///開始と同時に呼ばれる関数(通知の前に通知するであろう読み上げ文をオーディオファイルに変換しておく)
     public func startDistance(){
+        if distance == nil{
+            distance = Float(0)
+        }
         reading = Reading("距離が基準の\(perDistance != nil ? Int(perDistance!) : 0)メートルを超えました。現在の合計距離は\(Int(distance+perDistance))メートルです。", .distance)
         reading.readingToAudioFile()
     }

@@ -66,11 +66,19 @@ extension PedometerElementViewController{
             if let data = data?.first as? HKQuantitySample{
                 print("Weight => \(data.quantity.doubleValue(for: HKUnit.gram())/1000)")
                 self!.weight = Double(data.quantity.doubleValue(for: HKUnit.gram())/1000)
+                self!.getWeightUserDefaults()
             }else{
                 print("OOPS didnt get height \nResults => \(data), error => \(error)")
             }
         })
         healthStore.execute(query)
+        getWeightUserDefaults()
+    }
+    private func getWeightUserDefaults(){
+        //手動で入力された体重の方を優先する
+        if let weight = UserDefaults.standard.value(forKey: PedoSaveElement.weight.rawValue) as? Double{
+            self.weight = weight
+        }
     }
     private func updateCalorieLabel(){
         calorieLabel.text = "\(calorie != nil ? calorie! : 0)"
@@ -142,22 +150,9 @@ extension PedometerElementViewController{
     }
     ///消費カロリーの登録済みの通知を全て削除するための関数
     public func removeCalorieNotification(){
-        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { request in
-            print(request)
-        })
-        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { request in
-            print(request)
-        })
-        
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [pedoElementNotification.calorie.rawValue])
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [pedoElementNotification.calorie.rawValue])
         print("消費カロリー通知の削除に成功しました")
-        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { request in
-            print(request)
-        })
-        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { request in
-            print(request)
-        })
     }
     ///消費カロリーの通知をあらためて作成するための関数
     public func restartCalorieNotification(){

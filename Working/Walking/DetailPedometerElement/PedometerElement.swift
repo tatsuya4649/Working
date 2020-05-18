@@ -42,7 +42,7 @@ class PedometerElementViewController: UIViewController {
         pedometerElementTitleLabel(title)
         stepsSetting()
         notificationSetting()
-        perStepsCount = 10
+        perStepsCount = 1000
         checkPerStepsCount = perStepsCount
         locationUpdatePerStepsCount = checkPerStepsCount
     }

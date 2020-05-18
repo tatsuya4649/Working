@@ -51,10 +51,10 @@ extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource,Ped
         pedometerCollectionLayout.minimumInteritemSpacing = 20
         pedometerCollectionLayout.minimumLineSpacing = 20
         let cellWidth = (self.view.frame.size.width - 20*2 - 20)/2
-        let cellHeight = (settingView.frame.size.height - statusHeight - 20*3)/2
+        let cellHeight = (settingView.frame.size.height - 20*3)/2
         pedometerCollectionLayout.itemSize = CGSize(width: cellWidth, height: cellHeight)
         pedometerCollectionLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        pedometerCollection = UICollectionView(frame:CGRect(x:0,y:statusHeight,width:self.view.frame.size.width,height:settingView.frame.size.height - statusHeight),collectionViewLayout: pedometerCollectionLayout)
+        pedometerCollection = UICollectionView(frame:CGRect(x:0,y:0,width:self.view.frame.size.width,height:settingView.frame.size.height),collectionViewLayout: pedometerCollectionLayout)
         pedometerCollection.delegate = self
         pedometerCollection.dataSource = self
         pedometerCollection.register(PedometerElementCell.self, forCellWithReuseIdentifier: "pedometerElement")

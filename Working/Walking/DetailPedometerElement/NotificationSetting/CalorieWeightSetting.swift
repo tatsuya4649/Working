@@ -56,12 +56,24 @@ extension NotificationSettingViewController:UITextFieldDelegate{
     }
     @objc func changeTextFieldValue(_ sender:UITextField){
         print("消費カロリーで使用するための体重が変化しました")
+        if let string = sender.text{
+            if let weight = Double(string){
+                guard let delegate = delegate else{return}
+                delegate.changeWeightSettingValue(weight)
+            }
+        }
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let resultText: String = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-        if resultText.count <= 5 {
+        if string.count == 0{
             return true
+        }else{
+            let resultText: String = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            if let number = Float(resultText){
+                if resultText.count <= 5 && number < 300{
+                    return true
+                }
+            }
+            return false
         }
-        return false
     }
 }

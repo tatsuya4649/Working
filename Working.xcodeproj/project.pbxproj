@@ -40,6 +40,9 @@
 		74D505FA24641EB900711E6F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74D505F924641EB900711E6F /* Preview Assets.xcassets */; };
 		74D505FD24641EB900711E6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74D505FB24641EB900711E6F /* LaunchScreen.storyboard */; };
 		74D5060524641ECB00711E6F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5060424641ECB00711E6F /* ViewController.swift */; };
+		74D5D5EC2472098300B2249D /* NavigationSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5D5EB2472098300B2249D /* NavigationSetting.swift */; };
+		74D5D5EE24720CD100B2249D /* LocationNavigationSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5D5ED24720CD100B2249D /* LocationNavigationSetting.swift */; };
+		74D5D5F124720DD200B2249D /* ImageFromView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D5D5F024720DD200B2249D /* ImageFromView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +84,9 @@
 		74D505FC24641EB900711E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		74D505FE24641EB900711E6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74D5060424641ECB00711E6F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		74D5D5EB2472098300B2249D /* NavigationSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSetting.swift; sourceTree = "<group>"; };
+		74D5D5ED24720CD100B2249D /* LocationNavigationSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNavigationSetting.swift; sourceTree = "<group>"; };
+		74D5D5F024720DD200B2249D /* ImageFromView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFromView.swift; sourceTree = "<group>"; };
 		D3ECB01CA4D3B38582C49207 /* Pods-Working.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Working.release.xcconfig"; path = "Target Support Files/Pods-Working/Pods-Working.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				74D5060424641ECB00711E6F /* ViewController.swift */,
+				74D5D5EB2472098300B2249D /* NavigationSetting.swift */,
 				74809555246CE6B300399A07 /* GetLocation.swift */,
 				74CB2584246B76EA00E9B045 /* PedometerSetting.swift */,
 				74809015246A8FCE00109C40 /* PedometerElementSetting.swift */,
@@ -145,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				7480954F246C278900399A07 /* LocationViewController.swift */,
+				74D5D5ED24720CD100B2249D /* LocationNavigationSetting.swift */,
 				74809551246C294100399A07 /* SettinngMap.swift */,
 				74809553246C2A3400399A07 /* LocationSetting.swift */,
 				7465656F246D53B900260B4D /* ArchievePedometerElement.swift */,
@@ -237,6 +245,7 @@
 				74C4BD3B246F700E0022843C /* TabBarNotificationSetting.swift */,
 				7480954D246C273C00399A07 /* Walking */,
 				7480954E246C275300399A07 /* Location */,
+				74D5D5EF24720DBD00B2249D /* ImageFromView */,
 				74D505F624641EB900711E6F /* Assets.xcassets */,
 				74D505FB24641EB900711E6F /* LaunchScreen.storyboard */,
 				74D505FE24641EB900711E6F /* Info.plist */,
@@ -251,6 +260,14 @@
 				74D505F924641EB900711E6F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		74D5D5EF24720DBD00B2249D /* ImageFromView */ = {
+			isa = PBXGroup;
+			children = (
+				74D5D5F024720DD200B2249D /* ImageFromView.swift */,
+			);
+			path = ImageFromView;
 			sourceTree = "<group>";
 		};
 		EA8393DFF00C7B5BC1103ACF /* Pods */ = {
@@ -385,6 +402,7 @@
 				74D505F124641EB800711E6F /* AppDelegate.swift in Sources */,
 				740F76AE246A259000E95709 /* UISetting.swift in Sources */,
 				74656572246D55AF00260B4D /* MapAnnotation.swift in Sources */,
+				74D5D5EE24720CD100B2249D /* LocationNavigationSetting.swift in Sources */,
 				74809016246A8FCE00109C40 /* PedometerElementSetting.swift in Sources */,
 				74CB258D246BA42100E9B045 /* NotificationSettingViewController.swift in Sources */,
 				74809550246C278900399A07 /* LocationViewController.swift in Sources */,
@@ -392,6 +410,7 @@
 				74CB2590246BC1ED00E9B045 /* NotificationSettingPicker.swift in Sources */,
 				74C2E297246A9FD2007C0289 /* CalorieSetting.swift in Sources */,
 				74C4BD3E246F725F0022843C /* SendNotification.swift in Sources */,
+				74D5D5F124720DD200B2249D /* ImageFromView.swift in Sources */,
 				74C2E291246A9A6D007C0289 /* StepsSetting.swift in Sources */,
 				7498965E246BC93B00DC7990 /* NotificationUnitLabel.swift in Sources */,
 				74C2E28A246A984A007C0289 /* PedometerElementTitleLabel.swift in Sources */,
@@ -400,6 +419,7 @@
 				74809018246A924600109C40 /* PedometerElementCell.swift in Sources */,
 				74CB258B246B9F5A00E9B045 /* NotificationSetting.swift in Sources */,
 				74809558246CEB1E00399A07 /* CalorieWeightSetting.swift in Sources */,
+				74D5D5EC2472098300B2249D /* NavigationSetting.swift in Sources */,
 				740F76B0246A2CE100E95709 /* TabBarController.swift in Sources */,
 				74C4BD3C246F700E0022843C /* TabBarNotificationSetting.swift in Sources */,
 				74809556246CE6B300399A07 /* GetLocation.swift in Sources */,

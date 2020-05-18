@@ -11,6 +11,7 @@ import UIKit
 import FontAwesome_swift
 
 extension PedometerElementViewController:UIPopoverPresentationControllerDelegate,NotificationSettingViewControllerDelegate{
+    
     func changeStepsSettingValue(_ steps: Int) {
         //この項目が歩数であることを確認する
         guard let pedoElement = pedoElement else{return}
@@ -32,7 +33,7 @@ extension PedometerElementViewController:UIPopoverPresentationControllerDelegate
         guard let pedoElement = pedoElement else{return}
         guard pedoElement == .time else{return}
         checkPerTime += (Int(time)-checkPerTime)
-        perTime = Int(perTime)
+        perTime = Int(time)
     }
     
     func changeCalorieSettingValue(_ calorie: Double) {
@@ -41,6 +42,18 @@ extension PedometerElementViewController:UIPopoverPresentationControllerDelegate
         guard pedoElement == .calorie else{return}
         checkPerCalorie += (calorie-checkPerCalorie)
         perCalorie = calorie
+    }
+    
+    func changeWeightSettingValue(_ weight: Double) {
+        guard let pedoElement = pedoElement else{return}
+        guard pedoElement == .calorie else{return}
+        self.weight = weight
+        //変更された体重を登録しておく
+        UserDefaults.standard.set(self.weight, forKey: PedoSaveElement.weight.rawValue)
+        //体重が変わると消費カロリーの減りも変わるので、通知を設定しなおすためにカロリーの全ての通知を削除する
+        removeCalorieNotification()
+        //削除しおわったら再び設定する
+        restartCalorieNotification()
     }
     
     ///通知機能に関するセッティング
@@ -105,17 +118,17 @@ extension PedometerElementViewController:UIPopoverPresentationControllerDelegate
         switch pedoElement {
         case .steps:
             notificationViewController.popoverPresentationController?.permittedArrowDirections = .up
-            notificationViewController.stepsSetting()
+            notificationViewController.stepsSetting(perStepsCount)
         case .distance:
             notificationViewController.popoverPresentationController?.permittedArrowDirections = .up
-            notificationViewController.distanceSetting()
+            notificationViewController.distanceSetting(perDistance)
         case .time:
             notificationViewController.popoverPresentationController?.permittedArrowDirections = .down
-            notificationViewController.timeSetting()
+            notificationViewController.timeSetting(perTime)
         case .calorie:
             notificationViewController.popoverPresentationController?.permittedArrowDirections = .down
             notificationViewController.weight = weight
-            notificationViewController.calorieSetting()
+            notificationViewController.calorieSetting(perCalorie)
         default:break
         }
         present(notificationViewController,animated: true)

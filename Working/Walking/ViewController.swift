@@ -28,8 +28,11 @@ class ViewController: UIViewController {
     var locationManager : CLLocationManager!
     var latitude : Double!
     var longitude : Double!
+    var imageFromView : ImageFromView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "万歩計"
+        navigationSetting()
         uiSetting()
         pedometerElementSetting()
         NotificationCenter.default.addObserver(self, selector: #selector(activeApp), name: UIApplication.didBecomeActiveNotification, object: nil)

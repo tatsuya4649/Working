@@ -18,14 +18,16 @@ public enum PedoSaveElement : String{
     case perTime = "perTime"
     case startTime = "startTime"
     case perCalorie = "perCalorie"
+    case weight = "weight"
 }
 
 extension ViewController{
     ///読み込んだときにUIパーツをセットするための関数
     public func uiSetting(){
         let tabHeight = self.tabBarController != nil ? self.view.frame.size.height - self.tabBarController!.tabBar.frame.size.height : self.view.frame.size.height
-        
-        settingView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 0.8*tabHeight))
+        var naviHeight = self.navigationController != nil ? self.navigationController!.navigationBar.frame.size.height : 0
+        var statusHeight = UIApplication.shared.statusBarFrame.size.height
+        settingView = UIView(frame: CGRect(x: 0, y: statusHeight + naviHeight, width: self.view.frame.size.width, height: 0.8*(tabHeight - (statusHeight + naviHeight))))
         settingView.backgroundColor = .white
         settingView.layer.cornerRadius = 20
         settingView.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
@@ -42,6 +44,7 @@ extension ViewController{
         startButton.setTitle(String.fontAwesomeIcon(name: .play), for: .normal)
         startButton.setTitleColor(.black, for: .normal)
         startButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30, style: .solid)
+        startButton.backgroundColor = defaultColor
         setButton()
         startButton.isSelected = false
         startButton.addTarget(self, action: #selector(startButtonClick), for: .touchUpInside)
@@ -88,7 +91,7 @@ extension ViewController{
         startButton.titleLabel?.sizeToFit()
         startButton.frame = CGRect(x: 0, y: 0, width: startHeight, height: startHeight)
         startButton.layer.cornerRadius = startButton.frame.size.height/2
-        startButton.backgroundColor = .white
+        startButton.backgroundColor = defaultColor
         startButton.center = CGPoint(x: self.view.frame.size.width/2, y: settingView.frame.maxY + (tabHeight - settingView.frame.maxY)/2)
     }
     private func saveTimerStartButton(){

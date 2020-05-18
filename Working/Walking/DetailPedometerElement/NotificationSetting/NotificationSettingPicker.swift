@@ -50,7 +50,7 @@ extension NotificationSettingViewController:UIPickerViewDelegate,UIPickerViewDat
                 timeValue = time
                 updateExplainLabel("\(timeValue!)分経過するたびに1度通知します")
                 guard let delegate = delegate else {return}
-                delegate.changeTimeSettingValue(Double(time)*60)
+                delegate.changeTimeSettingValue(Double(time*60))
             }
         case .calorie:
             if let calorie = Int(pickerElementString[row]){

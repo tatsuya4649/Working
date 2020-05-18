@@ -20,8 +20,11 @@ class LocationViewController: UIViewController {
     var annotationList : Array<MapAnnotation>!
     var customAnnotationView : MapAnnotationView!
     var stopBool : Bool!
+    var imageFromView : ImageFromView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "記録マップ"
+        navigationSetting()
         mapSetting()
         locationSetting()
         polyLineSetting()

@@ -66,6 +66,9 @@ extension PedometerElementViewController{
     }
     ///開始と同時に呼ばれる関数(通知の前に通知するであろう読み上げ文をオーディオファイルに変換しておく)
     public func startSteps(){
+        if stepsCount == nil{
+            stepsCount = Int(0)
+        }
         reading = Reading("歩数が基準の\(perStepsCount != nil ? perStepsCount! : 0)歩を超えました。現在の合計歩数は\(stepsCount+perStepsCount)歩です。", .steps)
         reading.readingToAudioFile()
     }

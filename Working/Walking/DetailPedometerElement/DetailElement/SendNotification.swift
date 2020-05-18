@@ -98,7 +98,6 @@ extension PedometerElementViewController{
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     public func sendNotificationCalorie(_ title:String?,_ body:String,_ delay:Double){
-    
         let timer = (self.perCalorie != nil ? self.perCalorie! : 150.0) / (3*(self.weight != nil ? self.weight! : 60))
         let perSec = 60*60*timer
         print(perSec)
