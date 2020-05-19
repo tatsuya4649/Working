@@ -76,7 +76,7 @@
 		74CB258A246B9F5A00E9B045 /* NotificationSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSetting.swift; sourceTree = "<group>"; };
 		74CB258C246BA42100E9B045 /* NotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewController.swift; sourceTree = "<group>"; };
 		74CB258F246BC1ED00E9B045 /* NotificationSettingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingPicker.swift; sourceTree = "<group>"; };
-		74D505ED24641EB800711E6F /* Working.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Working.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		74D505ED24641EB800711E6F /* マイペース.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "マイペース.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74D505F024641EB800711E6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74D505F224641EB800711E6F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		74D505F624641EB900711E6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 		74D505EE24641EB800711E6F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				74D505ED24641EB800711E6F /* Working.app */,
+				74D505ED24641EB800711E6F /* マイペース.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -298,7 +298,7 @@
 			);
 			name = Working;
 			productName = Working;
-			productReference = 74D505ED24641EB800711E6F /* Working.app */;
+			productReference = 74D505ED24641EB800711E6F /* マイペース.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -571,9 +571,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = Tatsuya.S.Walking;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "マイペース";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -594,9 +594,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = Tatsuya.S.Walking;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "マイペース";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
