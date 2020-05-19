@@ -178,7 +178,7 @@ class PedometerElementViewController: UIViewController {
                 let minusTime = Date().timeIntervalSince(startTime)
                 let hourMinusTime = minusTime/(60*60)
                 if let perCalorie = UserDefaults.standard.object(forKey: PedoSaveElement.perCalorie.rawValue) as? Double{
-                    self.perCalorie = 5.0
+                    self.perCalorie = perCalorie
                 }
                 //print(minusTime)
                 //print(hourMinusTime)

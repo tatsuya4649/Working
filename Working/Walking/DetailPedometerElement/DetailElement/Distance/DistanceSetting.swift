@@ -60,8 +60,13 @@ extension PedometerElementViewController{
         //self.distance = Float(distance)
         //小数点第２位で四捨五入
         //self.distance = round(self.distance*10)/10
-        checkArchibePerDistance(round(Float(distance)*10)/10)
+        checkArchibePerDistance(round(Float(truncating: distance)*10)/10)
         updateDistanceLabel()
+        saveDistanceUserDefaults(round(Float(truncating: distance)*10)/10)
+    }
+    ///更新された歩数をユーザーデフォルトに保存するメソッド
+    private func saveDistanceUserDefaults(_ distance:Float){
+        UserDefaults.standard.setValue(distance, forKey: PedoSaveElement.distance.rawValue)
     }
     ///距離が基準に達したかどうかを確認するためのメソッド
     private func checkArchibePerDistance(_ distance:Float){
@@ -100,9 +105,9 @@ extension PedometerElementViewController{
     }
     ///開始と同時に呼ばれる関数(通知の前に通知するであろう読み上げ文をオーディオファイルに変換しておく)
     public func startDistance(){
-        if distance == nil{
-            distance = Float(0)
-        }
+        distance = Float(0)
+        checkPerDistance = perDistance
+        locationUpdatePerDistance = checkPerDistance
         reading = Reading("距離が基準の\(perDistance != nil ? Int(perDistance!) : 0)メートルを超えました。現在の合計距離は\(Int(distance+perDistance))メートルです。", .distance)
         reading.readingToAudioFile()
     }

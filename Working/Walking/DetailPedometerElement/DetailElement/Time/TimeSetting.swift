@@ -51,6 +51,7 @@ extension PedometerElementViewController{
             //self!.dispathTimeUpdate()
         //})
         //timer.resume()
+        time = Int(0)
         startButtonOn = true
         print("タイマーをスタートさせます")
         startTimerOnly()

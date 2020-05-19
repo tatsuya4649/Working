@@ -27,6 +27,12 @@ extension LocationViewController:CLLocationManagerDelegate{
             locationManager.startUpdatingLocation()
         }
     }
+    ///万歩計が終了したときに現在地の更新も終了させる
+    public func locationRemove(){
+        guard let _ = locationManager else{return}
+        locationManager.stopUpdatingLocation()
+        locationManager = nil
+    }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else{return}

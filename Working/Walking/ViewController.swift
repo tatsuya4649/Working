@@ -74,12 +74,19 @@ class ViewController: UIViewController {
         removeNotification()
     }
     public func removeNotification(){
-        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { request in
-            print(request)
-        })
+        print("全ての通知を削除します")
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        print("消費カロリー通知の削除に成功しました")
+    }
+    //万歩計に使用するUserDefaultsに保存してある値を全て削除する
+    public func removePedometerUserDefaults(){
+        print("万歩計に使用するUserDefaultsに保存してある値を全て削除します。")
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.distance.rawValue)
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perDistance.rawValue)
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perSteps.rawValue)
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.stepsCount.rawValue)
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perCalorie.rawValue)
+        UserDefaults.standard.removeObject(forKey: PedoSaveElement.perTime.rawValue)
     }
     /*
     // MARK: - Navigation

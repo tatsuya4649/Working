@@ -64,6 +64,7 @@ class LocationViewController: UIViewController {
     public func resetPedometer(){
         print("万歩計の計測が終了したことをロケーションに通知しました")
         stopBool = true
+        locationRemove()
     }
     ///Locationボタンがクリックされた瞬間に呼び出されるメソッド
     ///やることとしては、現在地に地図の中心を持ってくる

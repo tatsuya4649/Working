@@ -25,6 +25,12 @@ extension ViewController:CLLocationManagerDelegate{
             locationManager.startUpdatingLocation()
         }
     }
+    ///万歩計が終了したときに現在地の更新も終了させる
+    public func locationRemove(){
+        guard let _ = locationManager else{return}
+        locationManager.stopUpdatingLocation()
+        locationManager = nil
+    }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else{return}
         print("位置情報が更新されましたViewController")
@@ -37,6 +43,7 @@ extension ViewController:CLLocationManagerDelegate{
         guard let delegate = delegate else{return}
         delegate.updataLocation(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
     }
+
     ///前回の位置情報の更新からPedoElementの各項目に閾値が超えたものがないかどうかを探す関数
     private func checkCellUpdateValue(){
         //歩数のビューコントローラーから取得する

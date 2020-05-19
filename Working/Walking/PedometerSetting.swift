@@ -33,7 +33,6 @@ extension ViewController{
         guard pedometer == nil else{return}
         pedometer = CMPedometer()
         pedometer.startUpdates(from: Date(), withHandler: { [weak self] (pedometerData,error) in
-            
             DispatchQueue.main.async {
                 print("歩数が更新されました")
                 guard let _ = self else{return}

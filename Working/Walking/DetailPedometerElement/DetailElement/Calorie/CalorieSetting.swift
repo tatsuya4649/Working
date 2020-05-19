@@ -135,6 +135,10 @@ extension PedometerElementViewController{
     public func startCalorie(){
         print("消費カロリーがスタートしました")
         print(perCalorie)
+        //スタートしたと同時に消費カロリーを0に設定する
+        calorie = Double(0)
+        checkPerCalorie = perCalorie
+        locationUpdatePerCalorie = checkPerCalorie
         startButtonOn = true
         //通知のスイッチがオンになっているときだけ
         guard let notificationSwitch = notificationSwitch else{return}
