@@ -134,7 +134,6 @@ extension PedometerElementViewController{
     ///スタートボタンがクリックされたらすぐに消費カロリーの通知の準備をする
     public func startCalorie(){
         print("消費カロリーがスタートしました")
-        print(perCalorie)
         //スタートしたと同時に消費カロリーを0に設定する
         calorie = Double(0)
         checkPerCalorie = perCalorie
@@ -145,9 +144,11 @@ extension PedometerElementViewController{
         DispatchQueue.main.async {[weak self] in
             guard let _ = self else{return}
             if notificationSwitch.isOn{
-                self!.sendNotificationCalorie(nil, "\(self!.perCalorie != nil ? Int(self!.perCalorie) : 150)kcalを超えました。")
                 self!.reading = Reading("消費カロリーが基準の\(self!.perCalorie != nil ? Int(self!.perCalorie!) : 150)キロカロリーを超えました。", .calorie)
-                self!.reading.readingToAudioFile()
+                self!.reading.readingToAudioFile(completion: {[weak self] in
+                    guard let _ = self else{return}
+                    self!.sendNotificationCalorie(nil, "\(self!.perCalorie != nil ? Int(self!.perCalorie) : 150)kcalを超えました。")
+                })
                 //if let delegate = self!.delegate{
                     //delegate.archievePerTime(self!.perTime, totalTime: self!.time)
                 //}

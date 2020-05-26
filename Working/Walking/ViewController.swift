@@ -42,7 +42,8 @@ class ViewController: UIViewController {
         uiSetting()
         pedometerElementSetting()
         NotificationCenter.default.addObserver(self, selector: #selector(activeApp), name: UIApplication.didBecomeActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(unActionApp), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(unActionApp(_:)), name: UIApplication.willTerminateNotification, object: nil)
         // Do any additional setup after loading the view.
     }

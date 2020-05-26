@@ -58,11 +58,15 @@ final class Reading{
         }
     }
     ///読み上げ機能を特定のファイルにダウンロードする
-    public func readingToAudioFile(){
+    public func readingToAudioFile(completion:(()->Void)?){
         audioSettingChange()
         talker.write(utterance) { (buffer: AVAudioBuffer) in
             guard let pcmBuffer = buffer as? AVAudioPCMBuffer else {fatalError("unknown buffer type: \(buffer)")}
-            guard pcmBuffer.frameLength != 0 else{return}
+            guard pcmBuffer.frameLength != 0 else{
+                ///バッファサイズが0になる = 読み込みが完了したことを表すので終了を知らせる
+                completion?()
+                return
+            }
             // append buffer to file
             if self.output == nil {
                 do{

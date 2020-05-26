@@ -29,6 +29,7 @@ extension PedometerElementViewController{
         let request = UNNotificationRequest(identifier: pedoElementNotification.step.rawValue, content: content, trigger: nil)
         // 通知をセット
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        print()
     }
     public func sendNotificationDistance(_ title:String?,_ body:String){
         let content = UNMutableNotificationContent()

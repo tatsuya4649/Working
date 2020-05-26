@@ -76,7 +76,7 @@ extension PedometerElementViewController{
         checkPerStepsCount = perStepsCount
         locationUpdatePerStepsCount = checkPerStepsCount
         reading = Reading("歩数が基準の\(perStepsCount != nil ? perStepsCount! : 0)歩を超えました。現在の合計歩数は\(stepsCount+perStepsCount)歩です。", .steps)
-        reading.readingToAudioFile()
+        reading.readingToAudioFile(completion: nil)
     }
     ///歩数の基準値に達成したかどうかを確認するメソッド
     private func checkArchievePerSteps(_ steps:Int){
@@ -99,16 +99,11 @@ extension PedometerElementViewController{
                 print("地図にも基準を超えたことを知らせてあげる")
                 delegate.archievePerSteps(perStepsCount,stepsCount)
             }
-            DispatchQueue.main.async {[weak self] in
+            reading = Reading("歩数が基準の\(perStepsCount != nil ? perStepsCount! : 0)歩を超えました。現在の合計歩数は\(steps+perStepsCount)歩です。", .steps)
+            reading.readingToAudioFile(completion: {[weak self] in
                 guard let _ = self else{return}
                 self!.sendNotificationSteps("\(self!.perStepsCount != nil ? self!.perStepsCount! : 0)歩を超えました。","現在の合計歩数は\(self!.stepsCount != nil ? self!.stepsCount! : 0)歩です。")
-            }
-            //通知が終了してから10秒後に次の通知の準備をする
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {[weak self] in
-                guard let _ = self else{return}
-                self!.reading = Reading("歩数が基準の\(self!.perStepsCount != nil ? self!.perStepsCount! : 0)歩を超えました。現在の合計歩数は\(steps+self!.perStepsCount)歩です。", .steps)
-                self!.reading.readingToAudioFile()
-            }
+            })
         }
     }
     private func checkStepsFontSize(){

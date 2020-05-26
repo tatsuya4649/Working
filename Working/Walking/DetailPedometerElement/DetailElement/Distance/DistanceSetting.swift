@@ -88,13 +88,11 @@ extension PedometerElementViewController{
             if let delegate = delegate{
                 delegate.archievePerDistance(perDistance,self.distance)
             }
-            sendNotificationDistance("\(perDistance != nil ? perDistance! : 0)mを超えました。","現在の合計距離は\(self.distance != nil ? self.distance! : 0)mです。")
-            //通知が終了してから10秒後に次の通知の準備をする
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {[weak self] in
+            reading = Reading("距離が基準の\(perDistance != nil ? Int(perDistance!) : 0)メートルを超えました。現在の合計距離は\(Int(distance+perDistance))メートルです。", .distance)
+            reading.readingToAudioFile(completion: {[weak self] in
                 guard let _ = self else{return}
-                self!.reading = Reading("距離が基準の\(self!.perDistance != nil ? Int(self!.perDistance!) : 0)メートルを超えました。現在の合計距離は\(Int(distance+self!.perDistance))メートルです。", .distance)
-                self!.reading.readingToAudioFile()
-            }
+                self!.sendNotificationDistance("\(self!.perDistance != nil ? self!.perDistance! : 0)mを超えました。","現在の合計距離は\(self!.distance != nil ? self!.distance! : 0)mです。")
+            })
         }
     }
     private func distanceUpdate(){
@@ -109,7 +107,7 @@ extension PedometerElementViewController{
         checkPerDistance = perDistance
         locationUpdatePerDistance = checkPerDistance
         reading = Reading("距離が基準の\(perDistance != nil ? Int(perDistance!) : 0)メートルを超えました。現在の合計距離は\(Int(distance+perDistance))メートルです。", .distance)
-        reading.readingToAudioFile()
+        reading.readingToAudioFile(completion: nil)
     }
     private func checkDistanceFontSize(){
         distanceUpdate()

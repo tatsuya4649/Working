@@ -60,10 +60,12 @@ extension PedometerElementViewController{
         DispatchQueue.main.async {[weak self] in
             guard let _ = self else{return}
             if notificationSwitch.isOn{
-                self!.sendNotificationTimer(nil,"\(self!.perTime != nil ? Int(self!.perTime!/60) : 0)分を超えました。")
                 //self!.sendNotificationCalorie(nil, "\(self!.perCalorie != nil ? Int(self!.perCalorie) : 0)kcalを超えました。")
                 self!.reading = Reading("時間が基準の\(self!.perTime != nil ? Int(self!.perTime!/60) : 0)分を超えました。", .time)
-                self!.reading.readingToAudioFile()
+                self!.reading.readingToAudioFile(completion: {[weak self] in
+                    guard let _ = self else{return}
+                    self!.sendNotificationTimer(nil,"\(self!.perTime != nil ? Int(self!.perTime!/60) : 0)分を超えました。")
+                })
                 //if let delegate = self!.delegate{
                     //delegate.archievePerTime(self!.perTime, totalTime: self!.time)
                 //}
@@ -112,6 +114,7 @@ extension PedometerElementViewController{
         removeTimerNotification()
         //removeTimerUserDefaults()
     }
+    ///経過時間に合わせて"日・時・分・秒"でラベルを更新するためのメソッド
     private func updateTimeLabel(){
         if time >= 60*60*24{
             let day = time/(60*60*24)
@@ -145,6 +148,7 @@ extension PedometerElementViewController{
             resetMinLabel()
         }
     }
+    ///日付と日付単位ラベルを削除するためのメソッド
     private func resetDayLabel(){
         if dayLabel != nil{
             dayLabel.removeFromSuperview()
@@ -155,6 +159,7 @@ extension PedometerElementViewController{
             dayUnitLabel = nil
         }
     }
+    ///時間と時間単位ラベルを削除するためのメソッド
     private func resetHourLabel(){
         resetDayLabel()
         if hourLabel != nil{
@@ -166,6 +171,7 @@ extension PedometerElementViewController{
             hourUnitLabel = nil
         }
     }
+    ///分と分単位ラベルを削除するためのメソッド
     private func resetMinLabel(){
         resetHourLabel()
         if minLabel != nil{
